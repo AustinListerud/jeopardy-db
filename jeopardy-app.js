@@ -10,34 +10,24 @@ const express = require('express');
 const path = require('path');
 
 const app = express();
+const bodyParser = require('body-parser');
 const port = process.env.PORT || 8080;
 
+app.use(bodyParser.urlencoded({ extended: false }));
 app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname, '/index.html'));
   });
 
 app.listen(port, () => {});
 
-/*
-http.createServer(function (req, res) {
-  let q = url.parse(req.url, true);
-  let filename = "." + q.pathname;
-  fs.readFile(filename, function(err, data) {
-    if (err) {
-      res.writeHead(404, {'Content-Type': 'text/html'});
-      return res.end("404 Not Found");
-    } 
-    res.writeHead(200, {'Content-Type': 'text/html'});
-    res.write(data);
-    return res.end();
+app.post('/', function(req,res){
+    db.serialize(()=>{
+      db.each("SELECT clue, answer FROM question WHERE answer LIKE '%" + req.body.query + "%';", function(err,row){     //db.each() is only one which is funtioning while reading data from the DB
+        if(err){
+          res.send("Error encountered while displaying");
+          return console.error(err.message);
+        }
+            console.log(row.clue + "\n" + "ANSWER: " + row.answer + "\n\n");
+      });
+    });
   });
-}).listen(8080); 
-*/
-
-let query = 'aqaba';
-
-db.all("SELECT clue FROM question WHERE answer LIKE '%" + query + "%';", (error, rows) => {
-    rows.forEach((row) => {
-        console.log(row.clue + "\n");
-    })
-});
