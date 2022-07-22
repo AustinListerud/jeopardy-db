@@ -7,11 +7,13 @@
     <title>JeopardyDB</title>
 </head>
     <body>
-        <form id="navbarsearch" action="search" method="get" enctype="x-www-form-encoded" accept-charset="utf-8">
-            <fieldset class="noborder">
-            <input type="text" class="search" name="search" id="search" maxlength="256" value="">
-            <input type="submit" class="search_button" name="submit" value="Search">
-            </fieldset>
-        </form>
+        <div>
+            <form id="navbarsearch" action="/" method="POST" accept-charset="utf-8">
+                <fieldset class="noborder">
+                <input type="text" class="search" name="query" id="search" maxlength="256" value="">
+                <input type="submit" class="search_button" name="submit" value="Search">
+                </fieldset>
+            </form>
+        </div>
     </body>
 </html>
